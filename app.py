@@ -38,7 +38,7 @@ def webhook():
             platform = platformCheck(webhookPost,BPM_Keys['bpms'][bpPlat])
             if bpPlat==platform:
                 #Once BP platform identified, extract user-configured data from the webhook
-				for bpkey in BPM_Keys[bpPlat]:
+                for bpkey in BPM_Keys[bpPlat]:
                     statusChange.update({bpkey: [reduce(operator.getitem, BPM_Keys[bpPlat][bpkey], webhookPost)]})
 
                 #Output sanitised webhook data to remote syslog server.
