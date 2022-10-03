@@ -36,6 +36,8 @@ sudo cp /home/ubuntu/BPForwarder/BPForwarderPlatform-0.3/BPForwarderNGINXserverb
 
 sudo ln -s /etc/nginx/sites-available/BPForwarderNGINXserverblockconfigHTTP /etc/nginx/sites-enabled
 
+sudo rm /etc/nginx/sites-enabled/default
+
 sudo nginx -t
 
 sudo systemctl restart nginx
