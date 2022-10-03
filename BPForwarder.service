@@ -1,0 +1,13 @@
+[Unit]
+Description=Gunicorn instance to serve BPForwarder
+After=network.target
+
+[Service]
+User=ubuntu
+Group=www-data
+WorkingDirectory=/home/ubuntu/BPForwarder
+Environment="PATH=/home/ubuntu/BPForwarder/BPForwarderEnv/bin"
+ExecStart=/home/ubuntu/BPForwarder/BPForwarderEnv/bin/gunicorn --workers 3 --bind unix:bpforwarder.sock -m 007 wsgi:app
+
+[Install]
+WantedBy=multi-user.target
