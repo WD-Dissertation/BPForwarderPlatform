@@ -1,0 +1,23 @@
+{
+"bpms":{
+                "jira":["changelog","items",0,"fieldtype"]
+},
+
+"jira":{
+        "issue_id": ["issue","id"],
+        "issue_key": ["issue","key"],
+        "issue_name": ["issue","fields","issuetype","name"],
+        "issue_projectid": ["issue","fields","project","id"],
+        "issue_projectname": ["issue","fields","project","name"],
+        "issue_dtgcreated": ["issue","fields","created"],
+        "issue_dtgupdated": ["issue","fields","updated"],
+        "issue_current_status": ["issue","fields","status","name"],
+        "issue_parent_id": ["issue","fields","parent","id"],
+        "issue_parent_key": ["issue","fields","parent","key"],
+        "issue_parent_name": ["issue","fields","parent","fields","summary"],
+        "issue_parent_type": ["issue","fields","parent","fields","issuetype","name"],
+        "changlog_status": ["changelog","items",0,"field"],
+        "changelog_statusfrom": ["changelog","items",0,"fromString"],
+        "changelog_statusto": ["changelog","items",0,"toString"]
+}
+}
