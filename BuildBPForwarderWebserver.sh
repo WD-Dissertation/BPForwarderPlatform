@@ -7,26 +7,31 @@ apt-get install python3-pip python3-dev build-essential libssl-dev libffi-dev py
 
 pip3 install virtualenv
 
+echo "All packages installed"
+
 virtualenv BPForwarderEnv
 
 #sudo -u ubuntu source BPForwarderEnv/bin/activate
 source BPForwarderEnv/bin/activate
 
+echo "Virtual Environment activated"
+
 /home/ubuntu/BPForwarder/BPForwarderEnv/bin/pip install wheel
 
 /home/ubuntu/BPForwarder/BPForwarderEnv/bin/pip install gunicorn flask
 
-cp /home/ubuntu/BPForwarder/BPForwarderPlatform-0.3/app.py .
+cp /home/ubuntu/BPForwarder/BPForwarderPlatform-0.9/app.py .
 
-cp /home/ubuntu/BPForwarder/BPForwarderPlatform-0.3/wsgi.py .
+cp /home/ubuntu/BPForwarder/BPForwarderPlatform-0.9/wsgi.py .
 
-cp /home/ubuntu/BPForwarder/BPForwarderPlatform-0.3/BPFconf.JSON .
+cp /home/ubuntu/BPForwarder/BPForwarderPlatform-0.9/BPFconf.JSON .
 
 #sudo -u ubuntu deactivate
 deactivate
+echo "Virtual Environment deactivated"
 
 #Copy .service file to /etc/systemd/system/
-cp /home/ubuntu/BPForwarder/BPForwarderPlatform-0.3/BPForwarder.service /etc/systemd/system/
+cp /home/ubuntu/BPForwarder/BPForwarderPlatform-0.9/BPForwarder.service /etc/systemd/system/
 
 systemctl start BPForwarder
 
@@ -34,7 +39,9 @@ systemctl enable BPForwarder
 
 systemctl status BPForwarder
 
-cp /home/ubuntu/BPForwarder/BPForwarderPlatform-0.3/BPForwarderNGINXserverblockconfigHTTP /etc/nginx/sites-available/
+echo "Flask and Gunicorn configured"
+
+cp /home/ubuntu/BPForwarder/BPForwarderPlatform-0.9/BPForwarderNGINXserverblockconfigHTTP /etc/nginx/sites-available/
 
 ln -s /etc/nginx/sites-available/BPForwarderNGINXserverblockconfigHTTP /etc/nginx/sites-enabled
 
@@ -45,5 +52,7 @@ nginx -t
 systemctl restart nginx
 
 ufw allow 'Nginx Full'
+
+echo "Nginx webserver configured"
 
 echo "BPForwarder is now Live!"
