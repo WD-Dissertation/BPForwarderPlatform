@@ -9,7 +9,8 @@ pip3 install virtualenv
 
 virtualenv BPForwarderEnv
 
-sudo -u ubuntu source BPForwarderEnv/bin/activate
+#sudo -u ubuntu source BPForwarderEnv/bin/activate
+source BPForwarderEnv/bin/activate
 
 /home/ubuntu/BPForwarder/BPForwarderEnv/bin/pip install wheel
 
@@ -21,7 +22,8 @@ cp /home/ubuntu/BPForwarder/BPForwarderPlatform-0.3/wsgi.py .
 
 cp /home/ubuntu/BPForwarder/BPForwarderPlatform-0.3/BPFconf.JSON .
 
-sudo -u ubuntu deactivate
+#sudo -u ubuntu deactivate
+deactivate
 
 #Copy .service file to /etc/systemd/system/
 cp /home/ubuntu/BPForwarder/BPForwarderPlatform-0.3/BPForwarder.service /etc/systemd/system/
