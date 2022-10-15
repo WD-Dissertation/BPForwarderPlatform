@@ -4,6 +4,7 @@ from logging.handlers import SysLogHandler
 import socket
 from functools import reduce
 import operator
+import re
 
 app = Flask(__name__)
 
@@ -21,9 +22,10 @@ with open('BPFconf.JSON', "r") as config_file:
 #Basic index page returned when website accessed through web browser. Confirms BP Forwarder is online.
 @app.route('/')
 def index():
-    return 'BP Forwarder is running!'
+    return 'BP Forwarder is running!', 200
 
-#Configure BPM platforms to send webhooks to the '/webhook/' address.
+#Webhook parser
+#Note: Need to configure BPM platforms to send webhooks to the '/webhook/' subaddress.
 @app.route('/webhook', methods=['POST'])
 def webhook():
 
@@ -31,31 +33,46 @@ def webhook():
     if request.method == 'POST':
         webhookPost = request.get_json()
 
+        #Initialise dictionary to be forwarded as syslog
         statusChange = {}
 
-        #Cycle through possible BP Platforms the BP Forwarder is configured to receive webhooks from
-        for bpPlat in BPM_Keys['bpms']:
-            platform = platformCheck(webhookPost,BPM_Keys['bpms'][bpPlat])
-            if bpPlat==platform:
-                #Once BP platform identified, extract user-configured data from the webhook
+        #Cycle through the candidate BP Platforms the BP Forwarder Configuration File is configured to receive webhooks from (e.g. Jira, Backlog, Monday.com etc)
+        for bpPlat in BPM_Keys['bpmsIdentPath']:
+            bpID = dataCheck(webhookPost,BPM_Keys['bpmsIdentPath'][bpPlat])
+
+            if BPM_Keys['bpmsIdentMapping'][bpPlat]==bpID:
+                #Once BP platform identified, extract user-configured BP data from the webhook
+                statusChange.update({"BPM_Platform": [bpPlat]})
                 for bpkey in BPM_Keys[bpPlat]:
-                    statusChange.update({bpkey: [reduce(operator.getitem, BPM_Keys[bpPlat][bpkey], webhookPost)]})
+                    statusChange.update({bpkey: dataCheck(webhookPost,BPM_Keys[bpPlat][bpkey])})
 
                 #Output sanitised webhook data to remote syslog server.
                 logger.info(statusChange)
-                return 'Webhook received and forwarded'
+				return 'Webhook received and forwarded', 200
+                
+        #Respond to 'challenge' required by some BPM Platforms, e.g. Monday.com
+        if 'challenge' in webhookPost.keys():
+            return webhookPost, 200
 
-        return 'Webhook received but BP Platform not registered in config file. Data not forwarded'
+        return 'Webhook received but BP Platform not registered in config file. Data not forwarded', 200
     else:
         return 'Request Method not supported', 405
 
-def platformCheck(whData, subKeys):
+def dataCheck(whData, subKeys):
     try:
-        return reduce(operator.getitem, subKeys, whData)
+        #search for BP Platform identifier key within the received webhook
+        data = reduce(operator.getitem, subKeys, whData)
+        #if found, sanitise associated data to remove excessive length and dangerous characters before returning
+        data = (data[:40] + '..') if len(data) > 40 else data
+        #Keep +,:,-,' ', for date/time strings
+        data = re.sub('\W+:- ',' ',data)
+        return [data]
     except(KeyError, TypeError):
+        #If BP Platform identifier key not found, return 'None'
         return None
 
 
 if __name__ == '__main__':
     app.run()
+
 

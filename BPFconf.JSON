@@ -1,6 +1,13 @@
 {
-"bpms":{
-                "jira":["changelog","items",0,"fieldtype"]
+"bpmsIdentPath":{
+                "jira":["changelog","items",0,"fieldtype"],
+                "backlog":["project","projectKey"],
+                "monday":["event","app"]
+},
+"bpmsIdentMapping":{
+                "jira":["jira"],
+                "backlog":["WESDISSERTATIONTESTING"],
+                "monday":["monday"]
 },
 
 "jira":{
@@ -19,5 +26,26 @@
         "changlog_status": ["changelog","items",0,"field"],
         "changelog_statusfrom": ["changelog","items",0,"fromString"],
         "changelog_statusto": ["changelog","items",0,"toString"]
+},
+
+"backlog":{
+        "issue_id": ["content","id"],
+        "issue_key": ["content","key_id"],
+        "issue_name": ["content","summary"],
+        "issue_projectid": ["project","id"],
+        "issue_projectname": ["project","name"],
+        "issue_current_status": ["content","status","id"],
+        "issue_dtgupdated": ["created"],
+        "changelog_statusfrom": ["content","changes",0,"old_value"],
+        "changelog_statusto": ["content","changes",0,"new_value"]
+},
+
+"monday":{
+        "issue_id": ["event","pulseId"],
+        "issue_name": ["event","pulseName"],
+        "issue_dtgupdated": ["event","triggerTime"],
+        "changelog_status": ["event","value","label","text"],
+        "changelog_statusfrom": ["event","previousValue","label","text"],
+        "changelog_statusto": ["event","value","label","text"]
 }
 }
