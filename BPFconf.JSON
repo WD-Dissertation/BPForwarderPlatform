@@ -1,51 +1,51 @@
 {
-"bpmsIdentPath":{
-                "jira":["changelog","items",0,"fieldtype"],
-                "backlog":["project","projectKey"],
-                "monday":["event","app"]
-},
-"bpmsIdentMapping":{
-                "jira":["jira"],
-                "backlog":["WESDISSERTATIONTESTING"],
-                "monday":["monday"]
-},
+	"bpmsIdentPath": {
+		"jira": ["changelog", "items", 0, "fieldtype"],
+		"backlog": ["project", "projectKey"],
+		"monday": ["event", "app"]
+	},
+	"bpmsIdentMapping": {
+		"jira": ["jira"],
+		"backlog": ["WESDISSERTATIONTESTING"],
+		"monday": ["monday"]
+	},
 
-"jira":{
-        "issue_id": ["issue","id"],
-        "issue_key": ["issue","key"],
-        "issue_name": ["issue","fields","issuetype","name"],
-        "issue_projectid": ["issue","fields","project","id"],
-        "issue_projectname": ["issue","fields","project","name"],
-        "issue_dtgcreated": ["issue","fields","created"],
-        "issue_dtgupdated": ["issue","fields","updated"],
-        "issue_current_status": ["issue","fields","status","name"],
-        "issue_parent_id": ["issue","fields","parent","id"],
-        "issue_parent_key": ["issue","fields","parent","key"],
-        "issue_parent_name": ["issue","fields","parent","fields","summary"],
-        "issue_parent_type": ["issue","fields","parent","fields","issuetype","name"],
-        "changlog_status": ["changelog","items",0,"field"],
-        "changelog_statusfrom": ["changelog","items",0,"fromString"],
-        "changelog_statusto": ["changelog","items",0,"toString"]
-},
+	"jira": {
+		"issue_id": ["issue", "id"],
+		"issue_key": ["issue", "key"],
+		"issue_name": ["issue", "fields", "issuetype", "name"],
+		"issue_projectid": ["issue", "fields", "project", "id"],
+		"issue_projectname": ["issue", "fields", "project", "name"],
+		"issue_dtgcreated": ["issue", "fields", "created"],
+		"issue_dtgupdated": ["issue", "fields", "updated"],
+		"issue_current_status": ["issue", "fields", "status", "name"],
+		"issue_parent_id": ["issue", "fields", "parent", "id"],
+		"issue_parent_key": ["issue", "fields", "parent", "key"],
+		"issue_parent_name": ["issue", "fields", "parent", "fields", "summary"],
+		"issue_parent_type": ["issue", "fields", "parent", "fields", "issuetype", "name"],
+		"changlog_status": ["changelog", "items", 0, "field"],
+		"changelog_statusfrom": ["changelog", "items", 0, "fromString"],
+		"changelog_statusto": ["changelog", "items", 0, "toString"]
+	},
 
-"backlog":{
-        "issue_id": ["content","id"],
-        "issue_key": ["content","key_id"],
-        "issue_name": ["content","summary"],
-        "issue_projectid": ["project","id"],
-        "issue_projectname": ["project","name"],
-        "issue_current_status": ["content","status","id"],
-        "issue_dtgupdated": ["created"],
-        "changelog_statusfrom": ["content","changes",0,"old_value"],
-        "changelog_statusto": ["content","changes",0,"new_value"]
-},
+	"backlog": {
+		"issue_id": ["content", "id"],
+		"issue_key": ["content", "key_id"],
+		"issue_name": ["content", "summary"],
+		"issue_projectid": ["project", "id"],
+		"issue_projectname": ["project", "name"],
+		"issue_current_status": ["content", "status", "id"],
+		"issue_dtgupdated": ["created"],
+		"changelog_statusfrom": ["content", "changes", 0, "old_value"],
+		"changelog_statusto": ["content", "changes", 0, "new_value"]
+	},
 
-"monday":{
-        "issue_id": ["event","pulseId"],
-        "issue_name": ["event","pulseName"],
-        "issue_dtgupdated": ["event","triggerTime"],
-        "changelog_status": ["event","value","label","text"],
-        "changelog_statusfrom": ["event","previousValue","label","text"],
-        "changelog_statusto": ["event","value","label","text"]
-}
+	"monday": {
+		"issue_id": ["event", "pulseId"],
+		"issue_name": ["event", "pulseName"],
+		"issue_dtgupdated": ["event", "triggerTime"],
+		"changelog_status": ["event", "value", "label", "text"],
+		"changelog_statusfrom": ["event", "previousValue", "label", "text"],
+		"changelog_statusto": ["event", "value", "label", "text"]
+	}
 }
