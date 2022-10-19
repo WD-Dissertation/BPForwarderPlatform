@@ -29,25 +29,25 @@ with open("BPFconf.JSON", "r", encoding="utf8") as config_file:
 #When navigating to the base website domain
 @app.route("/")
 def index():
-    """
-    #Basic index page returned when website accessed through web browser.
-    #Confirms BP Forwarder is online.
-    """
+"""
+#Basic index page returned when website accessed through web browser.
+#Confirms BP Forwarder is online.
+"""
     return "BP Forwarder is running!", 200
 
 
 # Note: Need to configure BPM platforms to send webhooks to the '/webhook/' subaddress.
 @app.route("/webhook", methods=["POST"])
 def webhook():
-    """
-    # Webhook parser
-    # Webhooks use the 'Post' request, all other requests should be rejected.
-    """
+"""
+# Webhook parser
+# Webhooks use the 'Post' request, all other requests should be rejected.
+"""
     if request.method == "POST":
         webhook_post = request.get_json()
 
         # Initialise dictionary to be forwarded as syslog
-        status_change = {}
+        status_change = dict()
 
         # Cycle through the candidate BP Platforms the BP Forwarder Configuration File
         #is configured to receive webhooks from (e.g. Jira, Backlog, Monday.com etc)
@@ -59,17 +59,22 @@ def webhook():
                 status_change.update({"BPM_Platform": [bp_plat]})
                 for bpkey in BPM_Keys[bp_plat]:
                     status_change.update(
-                        {bpkey: data_check(webhook_post, BPM_Keys[bp_plat][bpkey])}
+                        {bpkey: data_sanitise(data_check(webhook_post, BPM_Keys[bp_plat][bpkey]))}
                     )
 
                 # Output sanitised webhook data to remote syslog server.
                 logger.info(status_change)
+                # Proactively delete raw webhook data.
+                del webhook_post
+                del status_change
                 return "Webhook received and forwarded", 200
 
         # Respond to 'challenge' required by some BPM Platforms, e.g. Monday.com
         if "challenge" in webhook_post.keys():
             return webhook_post, 200
-
+        
+        # Proactively delete raw webhook data.
+        del webhook_post
         return (
             "Webhook received but BP Platform not registered in config file. Data not forwarded",
             200,
@@ -79,21 +84,29 @@ def webhook():
 
 
 def data_check(wh_data, sub_keys):
-    """
-    #Function to search dictionary, incl. sub keys, according to specified key path
-    """
+"""
+#Function to search dictionary, incl. sub keys, according to specified key path
+"""
     try:
         # search for BP Platform identifier key within the received webhook
-        data = reduce(operator.getitem, sub_keys, wh_data)
-        # if found, sanitise associated data to remove excessive length and
-        #dangerous characters before returning
-        data = (data[:40] + "..") if len(data) > 40 else data
-        # Keep +,:,-,' ', for date/time strings
-        data = re.sub(r"\W+:- ", " ", data)
-        return [data]
+        data = [reduce(operator.getitem, sub_keys, wh_data)]
+        # Proactively delete raw webhook data.
+        del wh_data
+        return data
     except (KeyError, TypeError):
         # If BP Platform identifier key not found, return 'None'
         return None
+    
+def data_sanitise(data)
+"""
+#Sanitise data to remove excessive length and
+#dangerous characters before returning
+"""
+    if data is not None:
+        data = ([data[0][:60] + ".."]) if len(data[0]) > 60 else data
+        # Keep +,:,-,' ', for date/time strings
+        data = [re.sub(r"\W+:- ", " ", data[0])]
+    return data
 
 
 if __name__ == "__main__":
