@@ -66,3 +66,5 @@ ufw allow 'Nginx Full'
 echo "Nginx webserver configured"
 
 echo "BPForwarder is now Live!"
+
+echo -e "\nProtocol 2" >> /etc/ssh/sshd_config
