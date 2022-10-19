@@ -97,7 +97,7 @@ def data_check(wh_data, sub_keys):
         # If BP Platform identifier key not found, return 'None'
         return None
     
-def data_sanitise(data)
+def data_sanitise(data):
 """
 #Sanitise data to remove excessive length and
 #dangerous characters before returning
