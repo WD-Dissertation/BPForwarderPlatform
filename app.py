@@ -29,20 +29,20 @@ with open("BPFconf.JSON", "r", encoding="utf8") as config_file:
 #When navigating to the base website domain
 @app.route("/")
 def index():
-"""
-#Basic index page returned when website accessed through web browser.
-#Confirms BP Forwarder is online.
-"""
+    """
+    #Basic index page returned when website accessed through web browser.
+    #Confirms BP Forwarder is online.
+    """
     return "BP Forwarder is running!", 200
 
 
 # Note: Need to configure BPM platforms to send webhooks to the '/webhook/' subaddress.
 @app.route("/webhook", methods=["POST"])
 def webhook():
-"""
-# Webhook parser
-# Webhooks use the 'Post' request, all other requests should be rejected.
-"""
+    """
+    # Webhook parser
+    # Webhooks use the 'Post' request, all other requests should be rejected.
+    """
     if request.method == "POST":
         webhook_post = request.get_json()
 
@@ -84,9 +84,9 @@ def webhook():
 
 
 def data_check(wh_data, sub_keys):
-"""
-#Function to search dictionary, incl. sub keys, according to specified key path
-"""
+    """
+    #Function to search dictionary, incl. sub keys, according to specified key path
+    """
     try:
         # search for BP Platform identifier key within the received webhook
         data = [reduce(operator.getitem, sub_keys, wh_data)]
@@ -98,10 +98,10 @@ def data_check(wh_data, sub_keys):
         return None
     
 def data_sanitise(data):
-"""
-#Sanitise data to remove excessive length and
-#dangerous characters before returning
-"""
+    """
+    #Sanitise data to remove excessive length and
+    #dangerous characters before returning
+    """
     if data is not None:
         data = ([data[0][:60] + ".."]) if len(data[0]) > 60 else data
         # Keep +,:,-,' ', for date/time strings
