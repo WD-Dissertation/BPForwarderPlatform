@@ -26,17 +26,17 @@ echo "Virtual Environment activated"
 
 /home/ubuntu/BPForwarder/BPForwarderEnv/bin/pip install gunicorn flask
 
-cp /home/ubuntu/BPForwarder/BPForwarderPlatform-0.15/app.py .
+cp /home/ubuntu/BPForwarder/BPForwarderPlatform-1.0/app.py .
 
-cp /home/ubuntu/BPForwarder/BPForwarderPlatform-0.15/wsgi.py .
+cp /home/ubuntu/BPForwarder/BPForwarderPlatform-1.0/wsgi.py .
 
-cp /home/ubuntu/BPForwarder/BPForwarderPlatform-0.15/BPFconf.JSON .
+cp /home/ubuntu/BPForwarder/BPForwarderPlatform-1.0/BPFconf.JSON .
 
 deactivate
 echo "Virtual Environment deactivated"
 
 #Copy .service file to /etc/systemd/system/
-cp /home/ubuntu/BPForwarder/BPForwarderPlatform-0.15/BPForwarder.service /etc/systemd/system/
+cp /home/ubuntu/BPForwarder/BPForwarderPlatform-1.0/BPForwarder.service /etc/systemd/system/
 
 systemctl start BPForwarder
 
@@ -46,7 +46,7 @@ systemctl enable BPForwarder
 
 echo "Flask and Gunicorn configured"
 
-cp /home/ubuntu/BPForwarder/BPForwarderPlatform-0.15/BPForwarderNGINXserverblockconfigHTTP /etc/nginx/sites-available/
+cp /home/ubuntu/BPForwarder/BPForwarderPlatform-1.0/BPForwarderNGINXserverblockconfigHTTP /etc/nginx/sites-available/
 
 ln -s /etc/nginx/sites-available/BPForwarderNGINXserverblockconfigHTTP /etc/nginx/sites-enabled
 
