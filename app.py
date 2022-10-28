@@ -103,9 +103,9 @@ def data_sanitise(data):
     #dangerous characters before returning
     """
     if data is not None:
-        data = ([data[0][:60] + ".."]) if len(data[0]) > 60 else data
+        data = ([data[0][:60] + ".."]) if len(str(data[0])) > 60 else data
         # Keep +,:,-,' ', for date/time strings
-        data = [re.sub(r"\W+:- ", " ", data[0])]
+        data = [re.sub(r"\W+:- ", " ", str(data[0]))]
     return data
 
 
