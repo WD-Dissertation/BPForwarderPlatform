@@ -65,7 +65,7 @@ resource "aws_default_security_group" "default" {
     protocol    = "tcp"
     from_port   = 22 #SSH
     to_port     = 22
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = [var.publicip]
   }
 
   ingress {
